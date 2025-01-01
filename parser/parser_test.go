@@ -15,6 +15,16 @@ let foobar = 838383;`
 	l := lexer.New(input)
 	p := New(l)
 	program := p.ParseProgram()
+
+	if len(p.errors) > 1 {
+		errors := p.errors
+		t.Errorf("parser has %d errors", len(errors))
+		for _, msg := range errors {
+			t.Errorf("parser error: %q", msg)
+		}
+		t.FailNow()
+	}
+
 	if program == nil {
 		t.Fatalf("ParseProgram() returned nil")
 	}
